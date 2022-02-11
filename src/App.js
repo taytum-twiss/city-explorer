@@ -1,11 +1,13 @@
 import React from "react";
 import "./App.css";
+import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       city: "",
+      locationObj: {}
     };
   }
 
@@ -19,6 +21,11 @@ class App extends React.Component {
     event.preventDefault();
     const url = 'https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.city}&format=json';
     console.log('URL:', url);
+    let response = await axios.get(url);
+    console.log('Response: ', response.data[0]);
+    this.setState({
+      locationObj: response.data[0]
+    });
   }
 
   render() {
@@ -26,13 +33,14 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h1>City Explorer</h1>
-            </header>
+        </header>
         <form onSubmit={this.getLocation}>
           Your City:{" "}
           <input type="text" name="yourcity" onChange={this.handleChange} />
-          <button>Search</button>
+          <button type='submit'>Search</button>
         </form>
-        <h2>here is the map for {this.state.city} </h2>
+        <h2>here is the map for {this.state.locationObj.display_name} </h2>
+        <p>Lat/Lon: {this.state.locationObj.lat}, {this.state.locationObj.lon}</p>
         </div>
     );
   }
