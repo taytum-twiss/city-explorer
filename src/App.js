@@ -26,7 +26,7 @@ class App extends React.Component {
 
   getLocation = async (event) => {
     event.preventDefault();
-    const url = 'https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.city}&format=json';
+    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.city}&format=json`;
     console.log('URL:', url);
     try {
       let response = await axios.get(url);
@@ -44,7 +44,7 @@ class App extends React.Component {
   }
 
   getWeather = async () => {
-    const url = 'https://localhost:3001/weather?lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}&searchQuery=${this.state.city}'
+    const url = `https://localhost:3001/weather?lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}&searchQuery=${this.state.city}`
     try {
       let response = await axios.get(url);
       console.log('Weather response: ', response.data);
@@ -76,7 +76,7 @@ class App extends React.Component {
         <Container className='container'>
           <h2>here is the map for {this.state.locationObj.display_name}</h2>
           <p>Lat/Lon: {this.state.locationObj.lat},{this.state.locationObj.lon}</p>
-          <Image className='map' roundedCircle src={'https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationObj.lat},${this.state.locationObj.lon}&zoom=12'} alt={this.state.locationObj.display_name} />
+          <Image className='map' roundedCircle src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationObj.lat},${this.state.locationObj.lon}&zoom=12`} alt={this.state.locationObj.display_name} />
           <Weather weatherArr={this.state.weatherArr}/>
           </Container>
           }
