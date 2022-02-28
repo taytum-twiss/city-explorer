@@ -30,15 +30,16 @@ class App extends React.Component {
     console.log('URL:', url);
     try {
       let response = await axios.get(url);
-      console.log('Response: ', response.data[0]);
+      console.log('Location Response: ', response.data[0]);
       this.setState({
         locationObj: response.data[0]
       });
+      // when a city search successfully returns `lat` and `lon`info, immmediately create a new request (lat/lon included) to you server's `\weather` endpoint.
       this.getWeather();
-    } catch (error) {
+    } catch(error) {
       this.setState({
         showError: true,
-        errorMessage: error.response.status + ':' + error.response.data.error
+        errorMessage: error.response.status + `:` + error.response.data.error
       })
     }
   }
@@ -54,7 +55,7 @@ class App extends React.Component {
     } catch(error) {
       this.setState({
         showError: true,
-        errorMessage: error.response.status + ':' + error.response.data.error
+        errorMessage: errorResponse.data
       })
     }
   }
