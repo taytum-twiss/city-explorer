@@ -1,10 +1,10 @@
+import axios from 'axios';
 import React from "react";
 import "./App.css";
-import axios from "axios";
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
-import Weather from './Weather';
+import Weather from './weather';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,11 +30,11 @@ class App extends React.Component {
     console.log('URL:', url);
     try {
       let response = await axios.get(url);
-      console.log('Location Response: ', response.data[0]);
+      console.log('location response: ', response.data[0]);
       this.setState({
         locationObj: response.data[0]
       });
-      // when a city search successfully returns `lat` and `lon`info, immmediately create a new request (lat/lon included) to you server's `\weather` endpoint.
+
       this.getWeather();
     } catch(error) {
       this.setState({
@@ -45,7 +45,7 @@ class App extends React.Component {
   }
 
   getWeather = async () => {
-    const url = `https://city-explorer-api.herokuapp.com/weather?lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}&searchQuery=${this.state.city}`
+    const url = `${process.env.SERVER}/weather?lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}&searchQuery=${this.state.city}`
     try {
       let response = await axios.get(url);
       console.log('Weather response: ', response.data);
@@ -55,7 +55,7 @@ class App extends React.Component {
     } catch(error) {
       this.setState({
         showError: true,
-        errorMessage: errorResponse.data
+        //errorMessage: error.response.status + ':' + error.response.data.error
       })
     }
   }
@@ -77,7 +77,7 @@ class App extends React.Component {
         <Container className='container'>
           <h2>Here is the map for {this.state.locationObj.display_name}</h2>
           <p>Lat/Lon: {this.state.locationObj.lat},{this.state.locationObj.lon}</p>
-          <Image className='map' roundedCircle src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationObj.lat},${this.state.locationObj.lon}&zoom=12`} alt={this.state.locationObj.display_name} />
+          <Image className='map' roundedCircle src={`http://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationObj.lat},${this.state.locationObj.lon}&zoom=12`} alt={this.state.locationObj.display_name} />
           <Weather weatherArr={this.state.weatherArr}/>
           </Container>
           }
