@@ -76,12 +76,13 @@ class App extends React.Component {
           <h2>Here is the map for {this.state.locationObj.display_name}</h2>
           <p>Lat/Lon: {this.state.locationObj.lat}, {this.state.locationObj.lon}</p>
           <Image 
+
             className='map' 
             roundedCircle 
             src={`http://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationObj.lat},${this.state.locationObj.lon}&zoom=12`} 
             alt={this.state.locationObj.display_name} />
 
-          <Weather weatherArr={this.state.weatherArr}/>
+            <Weather weatherArr={this.state.weatherArr}/>
           </Container>
           }
 
