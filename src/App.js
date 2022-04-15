@@ -20,7 +20,7 @@ class App extends React.Component {
 
   handleChange = (event) => {
     let typedCity = event.target.value;
-    this.setState({ city: typedCity });
+    this.setState({city: typedCity});
     console.log(typedCity);
   };
 
